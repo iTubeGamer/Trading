@@ -1,11 +1,11 @@
-package de.maxkroner.stockportfoliomanager.stockportfoliomanager.data;
+package de.maxkroner.stockportfoliomanager.stockportfoliomanager.model;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +29,7 @@ public class Exchange {
 	@Column(name = "COUNTRY", unique=false, nullable=false)
 	private String country;
 	
-	@ManyToMany(mappedBy = "exchanges")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "exchanges")
 	private Set<Stock> tradableStocks = new HashSet<>();
 		
 	public Exchange() {

@@ -1,4 +1,4 @@
-package de.maxkroner.stockportfoliomanager.stockportfoliomanager.exception;
+package de.maxkroner.stockportfoliomanager.stockportfoliomanager.repository.exception;
 
 public class StockUpdateException extends Exception {
 

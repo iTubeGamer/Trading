@@ -2,9 +2,9 @@ package de.maxkroner.stockportfoliomanager.stockportfoliomanager.service.api;
 
 import java.util.List;
 
-import de.maxkroner.stockportfoliomanager.stockportfoliomanager.data.Stock;
-import de.maxkroner.stockportfoliomanager.stockportfoliomanager.exception.StockNotFoundException;
-import de.maxkroner.stockportfoliomanager.stockportfoliomanager.exception.StockUpdateException;
+import de.maxkroner.stockportfoliomanager.stockportfoliomanager.model.Stock;
+import de.maxkroner.stockportfoliomanager.stockportfoliomanager.repository.exception.StockNotFoundException;
+import de.maxkroner.stockportfoliomanager.stockportfoliomanager.repository.exception.StockUpdateException;
 
 /**
  * Service interface to access stocks.
@@ -12,24 +12,8 @@ import de.maxkroner.stockportfoliomanager.stockportfoliomanager.exception.StockU
  * @author Max Kroner
  *
  */
+
 public interface StockService {
-	
-	/**
-	 * Gets all available stocks.
-	 * 
-	 * @return list of stocks
-	 */
-	List<Stock> getAllStocks();
-	
-	
-	/**
-	 * Finds a stock by id.
-	 * 
-	 * @param id
-	 * @return stock
-	 * @throws StockNotFoundException
-	 */
-	Stock getStockById(Long id)  throws StockNotFoundException;
 	
 	/**
 	 * Finds stock if valid ISIN, WKN or Mnemonic is recognized;
@@ -38,7 +22,7 @@ public interface StockService {
 	 * @return stock
 	 * @throws StockNotFoundException
 	 */
-	Stock getStockFromSearchString(String search) throws StockNotFoundException;
+	List<Stock> getStocksFromSearchString(String search);
 	
 	
 	/**

@@ -2,56 +2,60 @@ package de.maxkroner.stockportfoliomanager.stockportfoliomanager.service;
 
 import java.util.List;
 
-import de.maxkroner.stockportfoliomanager.stockportfoliomanager.data.Stock;
-import de.maxkroner.stockportfoliomanager.stockportfoliomanager.data.StockDAO;
-import de.maxkroner.stockportfoliomanager.stockportfoliomanager.exception.StockNotFoundException;
-import de.maxkroner.stockportfoliomanager.stockportfoliomanager.exception.StockUpdateException;
-import de.maxkroner.stockportfoliomanager.stockportfoliomanager.service.api.StockService;
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import de.maxkroner.stockportfoliomanager.stockportfoliomanager.model.Stock;
+import de.maxkroner.stockportfoliomanager.stockportfoliomanager.repository.StockRepository;
+import de.maxkroner.stockportfoliomanager.stockportfoliomanager.repository.exception.StockUpdateException;
+import de.maxkroner.stockportfoliomanager.stockportfoliomanager.service.api.StockService;
 
 @Service
 public class StockServiceImpl implements StockService {
 	
-	@Inject
-	private StockDAO stockDAO;
+	@Autowired
+	private StockRepository stockRepository;
 
-	@Override
-	public List<Stock> getAllStocks() {
-		return stockDAO.getAllStocks();
-	}
 
+	
 	@Override
-	public Stock getStockById(Long id) throws StockNotFoundException {
-		
-		return stockDAO.getStockById(id);
-	}
-
-	@Override
-	public Stock getStockFromSearchString(String search) throws StockNotFoundException {
-		if(search.length() == 12) {
-			return stockDAO.getStockByIsin(search);
-		} else if (search.length() == 6) {
-			return stockDAO.getStockByWkn(search);
+	public List<Stock> getStocksFromSearchString(String search) {
+		if(search.length() == 6) {
+			List<Stock> list = stockRepository.findByWkn(search);
+			if(!list.isEmpty()) return list;
+		} else if (search.length() == 12) {
+			List<Stock> list = stockRepository.findByIsin(search);
+			if(!list.isEmpty()) return list;
 		} else {
-			return stockDAO.getStockByMnemonic(search);
+			List<Stock> list = stockRepository.findByXetraMnemonic(search);
+			if(!list.isEmpty()) return list;
 		}
+		
+		List<Stock> list = stockRepository.findByNameContaining(search);
+		
+		return list;
 	}
+	
 
+	
 	@Override
 	public int updateAvailableStocks() throws StockUpdateException {
 
+		/*
 		try {
-			Stock stockByWkn = stockDAO.getStockByWkn("123456");
+			Stock stockByWkn = stockRepository.getStockByWkn("123456");
 			return 0;
 		} catch (StockNotFoundException e) {
 			Stock apple = new Stock("Apple Inc", "12345678901", "123456", "APC");
-			stockDAO.saveStock(apple);
+			stockRepository.saveStock(apple);
 			return 1;
 		}
+		*/
+		
+		return 0;
 
 	}
+	
 	
 	
 
